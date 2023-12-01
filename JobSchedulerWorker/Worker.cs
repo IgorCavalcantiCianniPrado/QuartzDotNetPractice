@@ -36,9 +36,11 @@ namespace JobSchedulerWorker
 
         private IJobDetail GetJob()
         {
-            return JobBuilder.Create<HelloJob>()
-                             .WithIdentity("job", "group")
-                             .Build();
+            var jobTypeString = _configuration["JobScheduler:Type"] ?? "console";
+
+            var jobType = (JobType) Enum.Parse(typeof(JobType), jobTypeString);
+
+            return JobFactory.Create(jobType);
         }
 
         private ITrigger GetTrigger()

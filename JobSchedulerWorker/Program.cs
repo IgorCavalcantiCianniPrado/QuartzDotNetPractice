@@ -2,7 +2,13 @@ using JobSchedulerWorker;
 using Quartz.Impl;
 
 var builder = Host.CreateApplicationBuilder(args);
+
 builder.Services.AddHostedService<Worker>();
+
+builder.Services.AddWindowsService(options =>
+{
+    options.ServiceName = "Quartz.NET POC";
+});
 
 var configuration = new ConfigurationBuilder()
             .AddJsonFile("appsettings.json")
